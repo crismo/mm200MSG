@@ -1,4 +1,3 @@
-mm200MSG
-asdasdasda
-Dette er min melding som skal være her
-Enda mer
+# mm200MSG
+
+Meldings tjeneste for MM200 demo
