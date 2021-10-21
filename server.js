@@ -31,6 +31,10 @@ server.post("/msg", (httpReq, httpRes, next) => {
 	next();
 });
 
+server.get("/msgs", (req, res, next) => {
+	res.status(200).send(JSON.stringify(messages));
+});
+
 server.get("/msg/:id", (req, res, next) => {
 	req.params.id;
 	const envelope = messages.find((element) => element.id === req.params.id);
