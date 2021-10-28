@@ -15,7 +15,7 @@ class DatabaseHandler {
 		if (!conectionString) {
 			throw "Cant create database handler because connection string is missing";
 		}
-		this.#credentials = { conectionString, ssl: { rejectUnauthorized: false } };
+		this.#credentials = { conectionString };
 	}
 
 	async insertMessage(message) {
