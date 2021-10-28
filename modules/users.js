@@ -16,7 +16,7 @@ class Users{
 
   function getUser(username, password){
     const user = new User(username, password);
-    const found = this.user.find(u => u.username === user.username && u.password === u.password)
+    const found = this.user.find(u => u.username === user.username && u.password === user.password)
     return found
   }
 

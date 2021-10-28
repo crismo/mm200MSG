@@ -26,9 +26,8 @@ const basicAuth = function (req, res, next) {
 		if (user) {
 			// There was a user in the database with the correct username and password
 			// This is where we are diverging from the basic authentication standard. by creating a token for the client to use in all later corespondanse.
-			log("User is authenticated");
       
-			let token =encrypt(JSON.stringify( { id: user.id, username: user.name })); 
+			let token =encrypt(JSON.stringify( { id: user.id, username: user.name })); // Standarden for tokens https://jwt.io/ 
       
 			res
 				.status(200)
@@ -42,7 +41,6 @@ const basicAuth = function (req, res, next) {
 				.end(); // Send token and authenticated user to client.
 		} else {
 			// The request did not have valid credentials.
-			log("Bad credentials");
 			res.status(401).end(); // We respond by telling the client that it has not been authenticated as of yet.
 		}
 	}
