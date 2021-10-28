@@ -12,13 +12,18 @@ let messages = [];
 
 router.post("/msg", async (httpReq, httpRes, next) => {
 	if (httpReq.body.msg) {
-		const res = await db.insertMessage(httpReq.body.msg);
-		if (res instanceof Error) {
-			httpRes.statusMessage = res.message;
-			httpRes.status(res.statusCode).end();
-			console.error(res);
-		} else {
-			httpRes.status(200).send(JSON.stringify({ id: res }));
+		try {
+			const res = await db.insertMessage(httpReq.body.msg);
+			if (res instanceof Error) {
+				httpRes.statusMessage = res.message;
+				httpRes.status(res.statusCode).end();
+				console.error(res);
+			} else {
+				httpRes.status(200).send(JSON.stringify({ id: res }));
+			}
+		} catch (error) {
+			console.error(error);
+			httpRes.statusCode(500).end();
 		}
 	} else {
 		httpRes.statusMessage = "missing body parameter ";
