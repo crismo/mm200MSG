@@ -1,7 +1,6 @@
 const pg = require("pg");
 const BaseError = require("./baseError");
 const httpResponseCodes = require("./httpResponsCodes");
-const httpResponsCodes = require("./httpResponsCodes");
 
 class DBSaveError extends BaseError {
 	constructor() {
