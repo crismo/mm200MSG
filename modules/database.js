@@ -1,4 +1,14 @@
 const pg = require("pg");
+const BaseError = require("./baseError");
+const httpResponseCodes = require("./httpResponsCodes");
+const httpResponsCodes = require("./httpResponsCodes");
+
+class DBSaveError extends BaseError {
+	constructor() {
+		super(httpResponseCodes.SERVER_ERROR, "Could not save message in database");
+	}
+}
+
 class DatabaseHandler {
 	#credentials = null;
 
@@ -18,6 +28,11 @@ class DatabaseHandler {
 				'INSERT INTO "msg"("msg") VALUES($1) RETURNING "id"',
 				[message]
 			);
+
+			if ((results.rowCount = 0)) {
+				throw new DBSaveError();
+			}
+
 			results = results.rows[0].id;
 			client.end();
 		} catch (err) {

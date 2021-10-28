@@ -13,6 +13,8 @@ server.use(express.json());
 server.use(logger);
 server.use(msgService);
 
+server.on("uncaughtException", function (err) {});
+
 server.listen(server.get("port"), function () {
 	console.log("server running", server.get("port"));
 });

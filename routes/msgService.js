@@ -13,7 +13,13 @@ let messages = [];
 router.post("/msg", async (httpReq, httpRes, next) => {
 	if (httpReq.body.msg) {
 		const res = await db.insertMessage(httpReq.body.msg);
-		httpRes.status(200).send(JSON.stringify(res));
+		if (res instanceof Error) {
+			httpRes.statusMessage = err.message;
+			httpRes.status(err.statusCode).end();
+			console.error(res);
+		} else {
+			httpRes.status(200).send(JSON.stringify({ id: res }));
+		}
 	} else {
 		httpRes.statusMessage = "missing body parameter ";
 		httpRes.status(400).end();
@@ -26,9 +32,8 @@ router.get("/msgs", (req, res, next) => {
 	res.status(200).send(JSON.stringify(messages));
 });
 
-router.get("/msg/:id", (req, res, next) => {
-	req.params.id;
-	const envelope = messages.find((element) => element.id === req.params.id);
+router.get("/msg/:id", async (req, res, next) => {
+	const envelope = await db.selectMessage(req.params.id);
 	if (envelope) {
 		res.status(200).send(JSON.stringify(envelope));
 	} else {
