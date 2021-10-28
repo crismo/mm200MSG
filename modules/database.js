@@ -17,7 +17,7 @@ class DatabaseHandler {
 		}
 		this.#credentials = {
 			connectionString,
-			ssl: process.env.DATABASE_URL ? true : false,
+			ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
 		};
 	}
 
