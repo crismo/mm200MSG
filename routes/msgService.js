@@ -1,16 +1,19 @@
 const express = require("express");
-let router = express.Router();
+const DatabaseHandler = require("../modules/database");
 
+const connectionString =
+	process.env.DATABASE_URL ||
+	"postgres://mm200:passord@localhost:5432/localmsg";
+
+const db = new DatabaseHandler(connectionString);
+
+let router = express.Router();
 let messages = [];
 
-router.post("/msg", (httpReq, httpRes, next) => {
+router.post("/msg", async (httpReq, httpRes, next) => {
 	if (httpReq.body.msg) {
-		let envelope = {
-			id: Math.random().toString(32).slice(2),
-			msg: httpReq.body.msg,
-		};
-		messages.push(envelope);
-		httpRes.status(200).send(JSON.stringify({ id: envelope.id }));
+		const res = await db.insertMessage(httpReq.body.msg);
+		httpRes.status(200).send(JSON.stringify(res));
 	} else {
 		httpRes.statusMessage = "missing body parameter ";
 		httpRes.status(400).end();

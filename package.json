@@ -11,5 +11,8 @@
 	"dependencies": {
 		"express": "4.17.1",
 		"pg": "^8.7.1"
+	},
+	"devDependencies": {
+		"@types/node": "^16.11.6"
 	}
 }
