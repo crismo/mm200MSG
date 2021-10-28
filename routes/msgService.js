@@ -5,14 +5,13 @@ const connectionString =
 	process.env.DATABASE_URL ||
 	"postgres://mm200:passord@localhost:5432/localmsg";
 
-console.log(connectionString);
-
 const db = new DatabaseHandler(connectionString);
 
 let router = express.Router();
 let messages = [];
 
 router.post("/msg", async (httpReq, httpRes, next) => {
+	console.log(connectionString);
 	if (httpReq.body.msg) {
 		try {
 			const res = await db.insertMessage(httpReq.body.msg);
