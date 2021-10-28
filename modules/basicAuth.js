@@ -5,6 +5,9 @@ const users = new Users();
 user.createDummyUsers();
 
 const basicAuth = function (req, res, next) {
+
+// INFO : https://en.wikipedia.org/wiki/Basic_access_authentication 
+
 	let authorizationHeader = req.headers["authorization"];
 
 	if (!authorizationHeader) {
