@@ -11,15 +11,18 @@ class DBSaveError extends BaseError {
 class DatabaseHandler {
 	#credentials = null;
 
-	constructor(conectionString) {
-		if (!conectionString) {
+	constructor(connectionString) {
+		if (!connectionString) {
 			throw "Cant create database handler because connection string is missing";
 		}
-		this.#credentials = { conectionString };
+		this.#credentials = {
+			connectionString,
+			ssl: process.env.DATABASE_URL ? true : false,
+		};
 	}
 
 	async insertMessage(message) {
-		const client = new pg.Client(this.credentials);
+		const client = new pg.Client(this.#credentials);
 		let results = null;
 		try {
 			await client.connect();
@@ -42,7 +45,7 @@ class DatabaseHandler {
 	}
 
 	async selectMessage(messageId) {
-		const client = new pg.Client(this.credentials);
+		const client = new pg.Client(this.#credentials);
 		let results = null;
 		try {
 			await client.connect();
