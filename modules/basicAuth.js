@@ -1,3 +1,9 @@
+const {Users, User} = require("./users")
+const encrypt = require("./crypto")
+
+const users = new Users();
+user.createDummyUsers();
+
 const basicAuth = function (req, res, next) {
 	let authorizationHeader = req.headers["authorization"];
 
@@ -12,14 +18,15 @@ const basicAuth = function (req, res, next) {
 		let username = credentials[0].trim();
 		let password = credentials[1].trim();
 
-		let user = await; ///TODO: find the user in the Database
+		let user =  users.getUser(username, password); //find the user in the Database
 
 		if (user) {
 			// There was a user in the database with the correct username and password
 			// This is where we are diverging from the basic authentication standard. by creating a token for the client to use in all later corespondanse.
 			log("User is authenticated");
-			let token = { id: user.id, username: user.name }; ///TODO: Make "secure"
-
+      
+			let token =encrypt(JSON.stringify( { id: user.id, username: user.name })); 
+      
 			res
 				.status(200)
 				.send({

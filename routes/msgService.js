@@ -1,5 +1,6 @@
 const express = require("express");
 const DatabaseHandler = require("../modules/database");
+const basicAuth = require("../modules/basicAuth")
 
 const connectionString =
 	process.env.DATABASE_URL ||
@@ -10,7 +11,9 @@ const db = new DatabaseHandler(connectionString);
 let router = express.Router();
 let messages = [];
 
-router.post("/msg", async (httpReq, httpRes, next) => {
+router.use(basicAuth) // Krever autentisering for alle kall i denne routeren
+
+router.post("/msg",  async (httpReq, httpRes, next) => {
 	if (httpReq.body.msg) {
 		try {
 			const res = await db.insertMessage(httpReq.body.msg);
