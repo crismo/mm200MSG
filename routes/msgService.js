@@ -14,8 +14,8 @@ router.post("/msg", async (httpReq, httpRes, next) => {
 	if (httpReq.body.msg) {
 		const res = await db.insertMessage(httpReq.body.msg);
 		if (res instanceof Error) {
-			httpRes.statusMessage = err.message;
-			httpRes.status(err.statusCode).end();
+			httpRes.statusMessage = res.message;
+			httpRes.status(res.statusCode).end();
 			console.error(res);
 		} else {
 			httpRes.status(200).send(JSON.stringify({ id: res }));
