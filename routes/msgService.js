@@ -5,6 +5,8 @@ const connectionString =
 	process.env.DATABASE_URL ||
 	"postgres://mm200:passord@localhost:5432/localmsg";
 
+console.log(connectionString);
+
 const db = new DatabaseHandler(connectionString);
 
 let router = express.Router();
